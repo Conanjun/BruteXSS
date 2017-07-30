@@ -247,6 +247,13 @@ def brutexss():
 					path = urlparse.urlparse(site).scheme+"://"+urlparse.urlparse(site).netloc+urlparse.urlparse(site).path
 					url = site
 					param = str(raw_input("[?] Enter post data: > "))
+					cookie = raw_input("[?] Enter Cookie Press Enter to use default None)\n[?] > ")
+					if len(cookie) == 0:
+						cookie = None
+					else:
+						pass
+					if cookie is not None:
+						br.addheaders.append(('Cookie',cookie))
 					wordlist = raw_input("[?] Enter location of Wordlist (Press Enter to use default wordlist.txt)\n[?] > ")
 					if len(wordlist) == 0:
 						wordlist = 'wordlist.txt'
