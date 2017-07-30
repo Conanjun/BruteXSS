@@ -6,6 +6,7 @@
 
 from string import whitespace
 import httplib
+import urllib2
 import urllib
 import socket
 import urlparse
@@ -144,6 +145,20 @@ def brutexss():
 					url = site
 					paraname = []
 					paravalue = []
+					cookie = raw_input("[?] Enter Cookie ress Enter to use None[?] > ")
+					if len(cookie) == 0:
+						cookie = None
+					else:
+						pass
+					headers={
+						'User-agent': 'Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.9.0.1) Gecko/2008071615 Fedora/3.0.1-1.fc9 Firefox/3.0.1',
+						'Referer':site,
+						'Accept-Encoding':'gzip,deflate',
+						'Accept':'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8'
+					}
+					print 'site: '+site
+					if cookie is not None:
+						headers['Cookie'] = cookie
 					wordlist = raw_input("[?] Enter location of Wordlist (Press Enter to use default wordlist.txt)\n[?] > ")
 					if len(wordlist) == 0:
 						wordlist = 'wordlist.txt'
@@ -181,7 +196,9 @@ def brutexss():
 								progress = progress + 1
 								enc = urllib.quote_plus(x)
 								data = path+"?"+pn+"="+pv+enc
-								page = urllib.urlopen(data)
+								#page = urllib2.urlopen(data,headers)
+								tmp_req = urllib2.Request(data,headers=headers)
+								page = urllib2.urlopen(tmp_req)
 								sourcecode = page.read()
 								if x in sourcecode:
 									print(Style.BRIGHT+Fore.RED+"\n[!]"+" XSS Vulnerability Found! \n"+Fore.RED+Style.BRIGHT+"[!]"+" Parameter:\t%s\n"+Fore.RED+Style.BRIGHT+"[!]"+" Payload:\t%s"+Style.RESET_ALL)%(pn,x)
